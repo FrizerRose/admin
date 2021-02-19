@@ -1,7 +1,13 @@
 # vue_starter
 
+## Clone project from repo
+```
+git clone https://github.com/FrizerRose/admin
+```
+
 ## Project setup
 ```
+cd admin
 npm install
 ```
 
