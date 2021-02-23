@@ -6,7 +6,8 @@ import { State } from './state';
 export type Mutations<S = State> = {
   [LocalMutationTypes.CHANGE_NUMBER](state: S, payload: number): void;
   [LocalMutationTypes.CHANGE_ADVICE](state: S, payload: string): void;
-}
+  [LocalMutationTypes.CHANGE_SIDEBAR_COLLAPSE](state: S, payload: boolean): void;
+};
 
 // Mutuation implementation.
 export const mutations: MutationTree<State> & Mutations = {
@@ -15,5 +16,8 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [LocalMutationTypes.CHANGE_ADVICE](state, payload: string) {
     state.advice = payload;
+  },
+  [LocalMutationTypes.CHANGE_SIDEBAR_COLLAPSE](state, payload: boolean) {
+    state.sidebarCollapsed = payload;
   },
 };

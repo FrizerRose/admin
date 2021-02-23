@@ -1,9 +1,13 @@
 <template>
   <a-layout-sider
-    v-model:collapsed="collapsed"
+    v-model:collapsed="isSidebarCollapsed"
     collapsible
+    @collapse="toggleSidebar()"
   >
-    <div class="logo" />
+    <img
+      class="logo"
+      src="@/assets/roselogo.png"
+    >
     <a-menu
       v-model:selectedKeys="selectedKeys"
       theme="dark"
@@ -15,8 +19,8 @@
         </router-link>
       </a-menu-item>
       <a-menu-item key="2">
-        <router-link to="/clients">
-          Clients
+        <router-link to="/customers">
+          Customers
         </router-link>
       </a-menu-item>
       <a-menu-item key="3">
@@ -26,7 +30,23 @@
   </a-layout-sider>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import MutationTypes from '@/store/mutation-types';
+import { useStore } from '@/store';
 
-export default defineComponent({});
+export default defineComponent({
+  setup() {
+    const store = useStore();
+    const isSidebarCollapsed = computed(() => store.state.shared.sidebarCollapsed);
+
+    function toggleSidebar() {
+      store.commit(MutationTypes.CHANGE_SIDEBAR_COLLAPSE, !isSidebarCollapsed.value);
+    }
+
+    return {
+      isSidebarCollapsed,
+      toggleSidebar,
+    };
+  },
+});
 </script>
