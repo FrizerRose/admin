@@ -1,6 +1,7 @@
 enum MutationTypes {
   CHANGE_NUMBER = 'CHANGE_NUMBER',
   CHANGE_ADVICE = 'CHANGE_ADVICE',
+  CHANGE_SIDEBAR_COLLAPSE = 'CHANGE_SIDEBAR_COLLAPSE',
 }
 
 export default MutationTypes;

@@ -1,4 +1,6 @@
 // import '@/assets/scss/main.scss';
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
 import * as Sentry from '@sentry/vue';
 import { Integrations } from '@sentry/tracing';
 import { createApp } from 'vue';
@@ -18,5 +20,8 @@ if (process.env.NODE_ENV === 'production' && process.env.VUE_APP_SENTRY_DSN !== 
   });
 }
 
-createApp(App).use(store).use(router)
+createApp(App)
+  .use(store)
+  .use(router)
+  .use(Antd)
   .mount('#app');
