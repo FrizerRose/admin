@@ -2,6 +2,7 @@
   <common-layout>
     <h3>Customer list</h3>
     <CustomerListTable />
+    <CustomerListEdit />
   </common-layout>
 </template>
 
@@ -9,11 +10,13 @@
 import { defineComponent } from 'vue';
 import CommonLayout from '@/components/layout/CommonLayout.vue'; // @ is an alias to /src
 import CustomerListTable from '@/components/CustomerListTable.vue';
+import CustomerListEdit from '@/components/CustomerListEdit.vue';
 
 export default defineComponent({
   components: {
     CommonLayout,
     CustomerListTable,
+    CustomerListEdit,
   },
 });
 </script>

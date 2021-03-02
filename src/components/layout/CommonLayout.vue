@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh">
+  <a-layout style="min-height: 100vh;">
     <TheNavSidebar />
     <a-layout>
       <a-layout-content style="margin: 0 16px">

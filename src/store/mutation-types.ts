@@ -1,14 +1,15 @@
 import { DeveloperError } from '@/types/customError';
 import ArticleMutationTypes from './modules/article/mutation-types';
 import SharedMutationTypes from './modules/shared/mutation-types';
+import CompanyMutationTypes from './modules/company/mutation-types';
 
-const allMutationEnums = [
-  SharedMutationTypes,
-  ArticleMutationTypes,
-];
+const allMutationEnums = [SharedMutationTypes, ArticleMutationTypes, CompanyMutationTypes];
 
 const actionTypeValues = allMutationEnums.map((abc) => Object.values(abc)).flat();
-const hasConsistentNames = allMutationEnums.map((abc) => Object.entries(abc)).flat().every((keyValue) => keyValue[0] === keyValue[1]);
+const hasConsistentNames = allMutationEnums
+  .map((abc) => Object.entries(abc))
+  .flat()
+  .every((keyValue) => keyValue[0] === keyValue[1]);
 
 // Since we don't have namespaced modules, we need to make sure there are no duplicate Mutation names.
 if (actionTypeValues.length !== new Set(actionTypeValues).size) {
@@ -23,6 +24,7 @@ if (!hasConsistentNames) {
 const allMutationTypes = {
   ...SharedMutationTypes,
   ...ArticleMutationTypes,
+  ...CompanyMutationTypes,
 };
 
 export default allMutationTypes;

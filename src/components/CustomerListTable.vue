@@ -1,113 +1,74 @@
 <template>
   <a-table
     :columns="columns"
-    :data-source="data"
+    :data-source="companies"
+    row-key="{record => record.uid}"
   >
     <template #name="{ text }">
       <a>{{ text }}</a>
     </template>
-    <template #customTitle>
+    <template #action="{record}">
       <span>
-        <!-- <smile-outlined /> -->
-        Name
-      </span>
-    </template>
-    <template #tags="{ text: tags }">
-      <span>
-        <a-tag
-          v-for="tag in tags"
-          :key="tag"
-          :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-        >
-          {{ tag.toUpperCase() }}
-        </a-tag>
-      </span>
-    </template>
-    <template #action="{ record }">
-      <span>
-        <a>Invite 一 {{ record.name }}</a>
-        <a-divider type="vertical" />
-        <a>Delete</a>
-        <a-divider type="vertical" />
-        <a class="ant-dropdown-link">
-          More actions
-          <!-- <down-outlined /> -->
-        </a>
+        <a @click="showModal(record)">Edit</a>
       </span>
     </template>
   </a-table>
 </template>
 <script>
-// import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import { defineComponent } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
+import ActionTypes from '@/store/action-types';
+import MutationTypes from '@/store/mutation-types';
+import { useStore } from '@/store';
 
-const columns = [
-  {
-    dataIndex: 'name',
-    key: 'name',
-    slots: {
-      title: 'customTitle',
-      customRender: 'name',
-    },
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    slots: {
-      customRender: 'tags',
-    },
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    slots: {
-      customRender: 'action',
-    },
-  },
-];
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
 export default defineComponent({
-  components: {
-    // SmileOutlined,
-    // DownOutlined,
-  },
   setup() {
+    const isModalVisible = ref(false);
+    const store = useStore();
+    const companies = computed(() => store.state.company.company);
+    const columns = [
+      { title: 'Name', dataIndex: 'name', key: 'name' },
+      {
+        title: 'Contact E-mail',
+        dataIndex: 'contactEmail',
+        key: 'contactEmail',
+      },
+      { title: 'Booking URL', dataIndex: 'bookingPageSlug', key: 'bookingPageSlug' },
+      {
+        title: 'Last paid',
+        key: 'lastPaid',
+        dataIndex: 'lastPaid',
+        sorter: true,
+      },
+      {
+        title: 'Status',
+        key: 'isPublic',
+        dataIndex: 'isPublic',
+        sorter: true,
+        customRender: (record) => String(record.record.isPublic),
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        slots: { customRender: 'action' },
+      },
+    ];
+    const fetchCompany = async () => {
+      store.dispatch(ActionTypes.FETCH_COMPANY);
+    };
+
+    fetchCompany();
+
+    function showModal(record) {
+      store.commit(MutationTypes.CHANGE_COMPANY_TO_EDIT, record);
+      store.commit(MutationTypes.TOGGLE_MODAL, !isModalVisible.value);
+    }
+
     return {
-      data,
       columns,
+      companies,
+      fetchCompany,
+      isModalVisible,
+      showModal,
     };
   },
 });
