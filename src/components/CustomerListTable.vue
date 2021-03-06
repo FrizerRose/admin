@@ -2,7 +2,7 @@
   <a-table
     :columns="columns"
     :data-source="companies"
-    row-key="{record => record.uid}"
+    row-key="id"
   >
     <template #name="{ text }">
       <a>{{ text }}</a>
@@ -14,11 +14,12 @@
     </template>
   </a-table>
 </template>
-<script>
+<script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
 import ActionTypes from '@/store/action-types';
 import MutationTypes from '@/store/mutation-types';
 import { useStore } from '@/store';
+import Company from '@/types/company';
 
 export default defineComponent({
   setup() {
@@ -35,16 +36,18 @@ export default defineComponent({
       { title: 'Booking URL', dataIndex: 'bookingPageSlug', key: 'bookingPageSlug' },
       {
         title: 'Last paid',
-        key: 'lastPaid',
+        key: 'id',
         dataIndex: 'lastPaid',
         sorter: true,
       },
       {
         title: 'Status',
-        key: 'isPublic',
+        key: 'id',
         dataIndex: 'isPublic',
-        sorter: true,
-        customRender: (record) => String(record.record.isPublic),
+        sorter: (a: Company, b: Company) => String(a.isPublic).length - String(b.isPublic).length,
+        sortDirections: ['descend'],
+
+        customRender: (record: { record: Company }) => String(record.record.isPublic),
       },
       {
         title: 'Action',
@@ -53,12 +56,12 @@ export default defineComponent({
       },
     ];
     const fetchCompany = async () => {
-      store.dispatch(ActionTypes.FETCH_COMPANY);
+      store.dispatch(ActionTypes.FETCH_COMPANY, undefined);
     };
 
     fetchCompany();
 
-    function showModal(record) {
+    function showModal(record: Company) {
       store.commit(MutationTypes.CHANGE_COMPANY_TO_EDIT, record);
       store.commit(MutationTypes.TOGGLE_MODAL, !isModalVisible.value);
     }

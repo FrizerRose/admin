@@ -3,6 +3,8 @@
 import { RootState } from '@/store';
 import { ActionContext, ActionTree } from 'vuex';
 import { CompanyService } from '@/api';
+import Company from '@/types/company';
+
 import { ApiError } from '@/types/customError';
 import LocalActionTypes from './action-types';
 import LocalMutationTypes from './mutation-types';
@@ -16,6 +18,7 @@ type AugmentedActionContext = {
 
 export interface Actions {
   [LocalActionTypes.FETCH_COMPANY]({ commit }: AugmentedActionContext): void;
+  [LocalActionTypes.UPDATE_COMPANY]({ commit }: AugmentedActionContext, company: Company): Promise<unknown>;
 }
 
 // API access.
@@ -30,5 +33,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
     } else {
       throw new ApiError('No company by this ID.');
     }
+  },
+  async [LocalActionTypes.UPDATE_COMPANY]({ commit }, company: Company): Promise<unknown> {
+    return new Promise((resolve, reject) => (async () => {
+      console.log('company', company);
+      const response = await companyService.update(company);
+      if (response.status === 200 && response.data) {
+        commit(LocalMutationTypes.CHANGE_COMPANY_TO_EDIT, response.data);
+        resolve(true);
+      } else {
+        reject(new ApiError('Updating company failed.'));
+      }
+    })());
   },
 };

@@ -59,8 +59,9 @@ export default defineComponent({
       store.commit(MutationTypes.CHANGE_SIDEBAR_COLLAPSE, !isSidebarCollapsed.value);
     }
 
-    function handleItemClick(e: Record<string, any>) {
-      selectedKeys.value = e.keyPath;
+    function handleItemClick(e: Event) {
+      console.log(e);
+      // selectedKeys.value = e.keyPath;
     }
 
     return {

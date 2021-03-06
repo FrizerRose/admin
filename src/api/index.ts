@@ -45,9 +45,9 @@ export default class ApiService {
     }
   }
 
-  async update(resource: string, slug: string, params: object) {
+  async update(resource: string, params: object) {
     try {
-      return this.client.put(`${resource}/${slug}`, params);
+      return this.client.put(resource, params);
     } catch (error) {
       throw new ApiError(error);
     }
@@ -99,7 +99,7 @@ export class AdviceService {
   }
 
   update(slug: string, params: object) {
-    return this.apiService.update(this.resource, slug, { article: params });
+    return this.apiService.update(this.resource, { article: params });
   }
 
   destroy(slug: string) {
@@ -135,8 +135,8 @@ export class CompanyService {
     return this.apiService.post(this.resource, params);
   }
 
-  update(slug: string, params: object) {
-    return this.apiService.update(this.resource, slug, params);
+  update(params: object) {
+    return this.apiService.update(this.resource, params);
   }
 
   destroy(slug: string) {
