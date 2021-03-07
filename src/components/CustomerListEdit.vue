@@ -1,5 +1,13 @@
 <template>
-  <modal v-if="customer">
+  <modal
+    v-if="selectedCustomer"
+    @ok="save"
+  >
+    <a-alert
+      v-if="requestSent && !status"
+      message="There has been an error, please"
+      type="error"
+    />
     <a-form-item label="Customer name">
       <a-input
         v-model:value="formData.name"
@@ -21,7 +29,6 @@
     <a-form-item label="Customer status">
       <a-switch v-model:checked="formData.isPublic" />
     </a-form-item>
-    <button @click="testfunc()" />
   </modal>
 </template>
 <script>
@@ -30,6 +37,7 @@ import {
 } from 'vue';
 import { useStore } from '@/store';
 import ActionTypes from '@/store/action-types';
+import MutationTypes from '@/store/mutation-types';
 import Modal from './layout/Modal.vue';
 
 export default defineComponent({
@@ -38,32 +46,30 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const customer = computed(() => store.state.company.companyBeingEdited);
+    const selectedCustomer = computed(() => store.state.company.companyBeingEdited);
     const requestSent = ref(false);
     const status = ref(false);
-    const formData = reactive(JSON.parse(JSON.stringify(customer.value)));
+    const formData = reactive(JSON.parse(JSON.stringify(selectedCustomer.value)));
 
-    function testfunc() {
-      console.log(formData);
-    }
-    // TODO: logo
     async function save() {
       try {
-        await store.dispatch(ActionTypes.UPDATE_COMPANY, customer);
+        await store.dispatch(ActionTypes.UPDATE_COMPANY, formData);
+        await store.dispatch(ActionTypes.FETCH_COMPANY, null);
         requestSent.value = true;
         status.value = true;
+        store.commit(MutationTypes.TOGGLE_MODAL, false);
       } catch {
         requestSent.value = true;
         status.value = false;
       }
     }
+
     return {
-      customer,
-      save,
+      selectedCustomer,
       formData,
+      save,
       status,
       requestSent,
-      testfunc,
     };
   },
 });

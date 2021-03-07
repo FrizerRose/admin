@@ -2,7 +2,7 @@
   <common-layout>
     <h3>Customer list</h3>
     <CustomerListTable />
-    <CustomerListEdit v-if="customer" />
+    <CustomerListEdit v-if="selectedCustomer" />
   </common-layout>
 </template>
 
@@ -21,9 +21,9 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const customer = computed(() => store.state.company.companyBeingEdited);
+    const selectedCustomer = computed(() => store.state.company.companyBeingEdited);
 
-    return { customer };
+    return { selectedCustomer };
   },
 });
 </script>

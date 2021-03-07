@@ -7,7 +7,7 @@ import { State } from './state';
 
 export type Getters = {
   getCompany(state: State): Company | null;
-}
+};
 
 export const getters: GetterTree<State, RootState> & Getters = {
   getCompany: (state) => state.company,

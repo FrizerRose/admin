@@ -16,7 +16,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
-import ActionTypes from '@/store/action-types';
 import MutationTypes from '@/store/mutation-types';
 import { useStore } from '@/store';
 import Company from '@/types/company';
@@ -46,7 +45,6 @@ export default defineComponent({
         dataIndex: 'isPublic',
         sorter: (a: Company, b: Company) => String(a.isPublic).length - String(b.isPublic).length,
         sortDirections: ['descend'],
-
         customRender: (record: { record: Company }) => String(record.record.isPublic),
       },
       {
@@ -55,11 +53,6 @@ export default defineComponent({
         slots: { customRender: 'action' },
       },
     ];
-    const fetchCompany = async () => {
-      store.dispatch(ActionTypes.FETCH_COMPANY, undefined);
-    };
-
-    fetchCompany();
 
     function showModal(record: Company) {
       store.commit(MutationTypes.CHANGE_COMPANY_TO_EDIT, record);
@@ -69,7 +62,6 @@ export default defineComponent({
     return {
       columns,
       companies,
-      fetchCompany,
       isModalVisible,
       showModal,
     };
