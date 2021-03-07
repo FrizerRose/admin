@@ -20,6 +20,7 @@ export default defineComponent({
 
     function closeModal() {
       store.commit(MutationTypes.TOGGLE_MODAL, !isModalOpen.value);
+      store.commit(MutationTypes.CHANGE_COMPANY_TO_EDIT, null);
     }
 
     return {
