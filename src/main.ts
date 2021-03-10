@@ -21,17 +21,18 @@ if (process.env.NODE_ENV === 'production' && process.env.VUE_APP_SENTRY_DSN !== 
   });
 }
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCtRMPccTmrI2fMZZKXTzxCJIZXeyyVarE',
-  authDomain: 'admin-dash-8a02c.firebaseapp.com',
-  projectId: 'admin-dash-8a02c',
-  storageBucket: 'admin-dash-8a02c.appspot.com',
-  messagingSenderId: '877215444969',
-  appId: '1:877215444969:web:e8b867b72e5b12b57b2578',
-};
 // Initialize Firebase
-
-firebase.initializeApp(firebaseConfig);
+if (process.env.VUE_APP_FIREBASE_APIKEY !== undefined) {
+  const firebaseConfig = {
+    apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
+    authDomain: 'admin-dash-8a02c.firebaseapp.com',
+    projectId: 'admin-dash-8a02c',
+    // storageBucket: 'admin-dash-8a02c.appspot.com',
+    // messagingSenderId: '877215444969',
+    appId: process.env.VUE_APP_FIREBASE_APPID,
+  };
+  firebase.initializeApp(firebaseConfig);
+}
 
 createApp(App)
   .use(store)

@@ -5,7 +5,7 @@
   >
     <a-alert
       v-if="requestSent && !status"
-      message="There has been an error, please"
+      message="There has been an error, please try again"
       type="error"
     />
     <a-form-item label="Customer name">

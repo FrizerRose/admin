@@ -63,7 +63,7 @@ router.beforeEach(async (to, from, next) => {
     }, reject);
   });
 
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const requiresAuth = to.matched.some((record) => record.meta.authRequired);
   if (requiresAuth && !(await getCurrentUser())) {
     next('/login');
   } else {

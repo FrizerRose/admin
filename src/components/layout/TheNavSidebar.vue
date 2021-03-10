@@ -28,25 +28,28 @@
           <span>Customers</span>
         </router-link>
       </a-menu-item>
-      <a-menu-item key="Settings">
-        <tool-outlined />
-        <span>Settings</span>
+      <a-menu-item
+        key="Log Off"
+        @click="logOff">
+        <PoweroffOutlined />
+        <span>Log Off</span>
       </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
+import firebase from 'firebase';
 import { useRoute } from 'vue-router';
 import MutationTypes from '@/store/mutation-types';
 import { useStore } from '@/store';
-import { HomeOutlined, UserOutlined, ToolOutlined } from '@ant-design/icons-vue';
+import { HomeOutlined, UserOutlined, PoweroffOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
   components: {
     HomeOutlined,
     UserOutlined,
-    ToolOutlined,
+    PoweroffOutlined,
   },
   setup() {
     const store = useStore();
@@ -64,11 +67,20 @@ export default defineComponent({
       selectedKeys.value = e.item.eventKey;
     }
 
+    function logOff() {
+      firebase.auth().signOut().then(() => {
+        window.location.href = '/';
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+
     return {
       isSidebarCollapsed,
       toggleSidebar,
       selectedKeys,
       handleItemClick,
+      logOff,
     };
   },
 });

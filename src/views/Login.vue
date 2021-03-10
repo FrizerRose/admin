@@ -8,6 +8,11 @@
 
       <div class="login-box">
         <form action="">
+          <a-alert
+            v-if="formError"
+            :message="formErrorMsg"
+            type="error" />
+
           <a-input
             v-model:value="userEmail"
             placeholder="email"
@@ -40,23 +45,24 @@ export default defineComponent({
   setup() {
     const userEmail = ref('');
     const userPassword = ref('');
+    const formError = ref(false);
+    const formErrorMsg = ref('');
 
     function save() {
       firebase
         .auth()
         .signInWithEmailAndPassword(userEmail.value, userPassword.value)
         .then(() => {
+          formError.value = false;
           window.location.href = '/';
         })
         .catch((error) => {
-          console.log('err');
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          if (errorCode === 'auth/wrong-password') {
-            console.log('Wrong password.');
-          } else {
-            console.log(errorMessage);
-          }
+          formError.value = true;
+          formErrorMsg.value = error.message;
+          // if (error.code === 'auth/wrong-password') {
+          //   console.log('Wrong password.');
+          // } else {
+          // }
           console.log(error);
         });
     }
@@ -65,6 +71,8 @@ export default defineComponent({
       save,
       userEmail,
       userPassword,
+      formError,
+      formErrorMsg,
     };
   },
 });
