@@ -36,7 +36,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [LocalActionTypes.UPDATE_COMPANY]({ commit }, company: Company): Promise<unknown> {
     return new Promise((resolve, reject) => (async () => {
-      console.log('company', company);
       const response = await companyService.update(company);
       if (response.status === 200 && response.data) {
         commit(LocalMutationTypes.CHANGE_COMPANY_TO_EDIT, response.data);

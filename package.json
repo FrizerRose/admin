@@ -16,6 +16,7 @@
     "ant-design-vue": "^2.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "firebase": "^8.2.10",
     "normalize.css": "*",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",

@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import firebase from 'firebase';
+
 import Home from '../views/Home.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -6,12 +8,18 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'Home',
     component: Home,
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: '/customers',
     name: 'Customers',
     // lazy loaded route
     component: () => import(/* webpackChunkName: "about" */ '../views/Customers.vue'),
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: '/login',
@@ -45,6 +53,22 @@ const router = createRouter({
     }
     return { top: 0, left: 0 };
   },
+});
+
+router.beforeEach(async (to, from, next) => {
+  const getCurrentUser = () => new Promise((resolve, reject) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      unsubscribe();
+      resolve(user);
+    }, reject);
+  });
+
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  if (requiresAuth && !(await getCurrentUser())) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 export default router;

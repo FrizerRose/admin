@@ -11,18 +11,12 @@ import { State } from './state';
 
 // Constraints commit to mutations from the right module
 type AugmentedActionContext = {
-  commit<K extends keyof Mutations>(
-    key: K,
-    payload: Parameters<Mutations[K]>[1],
-  ): ReturnType<Mutations[K]>;
-} & Omit<ActionContext<State, RootState>, 'commit'>
+  commit<K extends keyof Mutations>(key: K, payload: Parameters<Mutations[K]>[1]): ReturnType<Mutations[K]>;
+} & Omit<ActionContext<State, RootState>, 'commit'>;
 
 // Blueprint for actions. All of them have to be implemented.
 export interface Actions {
-  [LocalActionTypes.FETCH_ADVICE](
-    { commit }: AugmentedActionContext,
-    id: number,
-  ): void;
+  [LocalActionTypes.FETCH_ADVICE]({ commit }: AugmentedActionContext, id: number): void;
 }
 
 // API access.

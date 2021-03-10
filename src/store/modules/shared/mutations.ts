@@ -8,6 +8,7 @@ export type Mutations<S = State> = {
   [LocalMutationTypes.CHANGE_ADVICE](state: S, payload: string): void;
   [LocalMutationTypes.CHANGE_SIDEBAR_COLLAPSE](state: S, payload: boolean): void;
   [LocalMutationTypes.TOGGLE_MODAL](state: S, payload: boolean): void;
+  [LocalMutationTypes.CHANGE_USER_LOGGED_IN](state: S, payload: boolean): void;
 };
 
 // Mutuation implementation.
@@ -23,5 +24,8 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [LocalMutationTypes.TOGGLE_MODAL](state, payload: boolean) {
     state.isModalOpen = payload;
+  },
+  [LocalMutationTypes.CHANGE_USER_LOGGED_IN](state, payload: boolean) {
+    state.isUserLoggedIn = payload;
   },
 };

@@ -3,6 +3,7 @@ export interface State {
   advice: string;
   sidebarCollapsed: boolean;
   isModalOpen: boolean;
+  isUserLoggedIn: boolean;
 }
 
 const state: State = {
@@ -10,6 +11,7 @@ const state: State = {
   advice: 'sex number lmao',
   sidebarCollapsed: false,
   isModalOpen: false,
+  isUserLoggedIn: false,
 };
 
 export default state;
