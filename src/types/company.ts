@@ -1,4 +1,5 @@
-import CompanyPreferences from './companyPreferences';
+import CompanyPreferences from "./companyPreferences";
+import Payment from "./payment";
 
 type Company = {
   id: number;
@@ -11,6 +12,7 @@ type Company = {
   streetName: string;
   isPublic: boolean;
   companyPreferences: CompanyPreferences;
+  payments: Payment[];
 };
 
 export default Company;

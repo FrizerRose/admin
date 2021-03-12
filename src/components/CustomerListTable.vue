@@ -25,6 +25,12 @@ export default defineComponent({
     const isModalVisible = ref(false);
     const store = useStore();
     const companies = computed(() => store.state.company.company);
+    function dateRender(record: Company) {
+      if (record.payments[0] !== undefined) {
+        return record.payments[0].date;
+      }
+      return '';
+    }
     const columns = [
       { title: 'Name', dataIndex: 'name', key: 'name' },
       {
@@ -36,8 +42,25 @@ export default defineComponent({
       {
         title: 'Last paid',
         key: 'id',
-        dataIndex: 'lastPaid',
-        sorter: true,
+        dataIndex: 'payments[0].date',
+        customRender: (record: { record: Company }) => dateRender(record.record),
+        sortDirections: ['descend'],
+
+        sorter: (a: Company, b: Company) => {
+          let dateA: string;
+          let dateB: string;
+          if (a.payments[0] === undefined) {
+            dateA = '1970-01-01';
+          } else {
+            dateA = a.payments[0].date;
+          }
+          if (b.payments[0] === undefined) {
+            dateB = '1970-01-01';
+          } else {
+            dateB = b.payments[0].date;
+          }
+          return (new Date(dateA).getTime() - new Date(dateB).getTime());
+        },
       },
       {
         title: 'Status',
