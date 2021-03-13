@@ -30,7 +30,8 @@
       </a-menu-item>
       <a-menu-item
         key="Log Off"
-        @click="logOff">
+        @click="logOff"
+      >
         <PoweroffOutlined />
         <span>Log Off</span>
       </a-menu-item>
@@ -62,17 +63,20 @@ export default defineComponent({
       store.commit(MutationTypes.CHANGE_SIDEBAR_COLLAPSE, !isSidebarCollapsed.value);
     }
 
-    function handleItemClick(e: any) {
-      console.log(e);
+    function handleItemClick(e: { item: Record<string, []> }) {
       selectedKeys.value = e.item.eventKey;
     }
 
     function logOff() {
-      firebase.auth().signOut().then(() => {
-        window.location.href = '/';
-      }).catch((error) => {
-        console.log(error);
-      });
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          window.location.href = '/';
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     return {

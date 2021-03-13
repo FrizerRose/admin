@@ -1,5 +1,5 @@
-import CompanyPreferences from "./companyPreferences";
-import Payment from "./payment";
+import CompanyPreferences from './companyPreferences';
+import Payment from './payment';
 
 type Company = {
   id: number;

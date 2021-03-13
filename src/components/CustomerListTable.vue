@@ -25,12 +25,19 @@ export default defineComponent({
     const isModalVisible = ref(false);
     const store = useStore();
     const companies = computed(() => store.state.company.company);
+
     function dateRender(record: Company) {
       if (record.payments[0] !== undefined) {
         return record.payments[0].date;
       }
-      return '';
+      return '-';
     }
+
+    function showModal(record: Company) {
+      store.commit(MutationTypes.CHANGE_COMPANY_TO_EDIT, record);
+      store.commit(MutationTypes.TOGGLE_MODAL, !isModalVisible.value);
+    }
+
     const columns = [
       { title: 'Name', dataIndex: 'name', key: 'name' },
       {
@@ -41,11 +48,20 @@ export default defineComponent({
       { title: 'Booking URL', dataIndex: 'bookingPageSlug', key: 'bookingPageSlug' },
       {
         title: 'Last paid',
-        key: 'id',
-        dataIndex: 'payments[0].date',
+        key: 'payments',
+        dataIndex: 'payments',
         customRender: (record: { record: Company }) => dateRender(record.record),
+        filters: [{ text: 'Unpaid', value: '' }],
+        onFilter: (value: string, record: Company) => {
+          if (record.payments[0] !== undefined) {
+            const date: Date = new Date(record.payments[0].date);
+            const currentDay: Date = new Date();
+            date.setDate(date.getDate() + 30);
+            return currentDay > date;
+          }
+          return record.payments.length === 0;
+        },
         sortDirections: ['descend'],
-
         sorter: (a: Company, b: Company) => {
           let dateA: string;
           let dateB: string;
@@ -59,16 +75,18 @@ export default defineComponent({
           } else {
             dateB = b.payments[0].date;
           }
-          return (new Date(dateA).getTime() - new Date(dateB).getTime());
+          return new Date(dateA).getTime() - new Date(dateB).getTime();
         },
       },
       {
         title: 'Status',
         key: 'id',
         dataIndex: 'isPublic',
+        filters: [{ text: 'Inactive', value: false }],
         sorter: (a: Company, b: Company) => String(a.isPublic).length - String(b.isPublic).length,
         sortDirections: ['descend'],
         customRender: (record: { record: Company }) => String(record.record.isPublic),
+        onFilter: (value: boolean, record: Company) => record.isPublic === value,
       },
       {
         title: 'Action',
@@ -76,11 +94,6 @@ export default defineComponent({
         slots: { customRender: 'action' },
       },
     ];
-
-    function showModal(record: Company) {
-      store.commit(MutationTypes.CHANGE_COMPANY_TO_EDIT, record);
-      store.commit(MutationTypes.TOGGLE_MODAL, !isModalVisible.value);
-    }
 
     return {
       columns,
