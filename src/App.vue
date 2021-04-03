@@ -12,6 +12,7 @@ export default defineComponent({
     const store = useStore();
     const fetchCompany = async () => {
       store.dispatch(ActionTypes.FETCH_COMPANY, undefined);
+      store.dispatch(ActionTypes.FETCH_FAQ, {});
     };
     fetchCompany();
   },

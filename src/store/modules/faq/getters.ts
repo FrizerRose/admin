@@ -2,13 +2,13 @@
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '@/store';
 import { GetterTree } from 'vuex';
-import Company from '@/types/company';
+import Faq from '@/types/faq';
 import { State } from './state';
 
 export type Getters = {
-  getCompany(state: State): Company[] | null;
-};
+  getOrderedFaq(state: State): Faq[] | null;
+}
 
 export const getters: GetterTree<State, RootState> & Getters = {
-  getCompany: (state) => state.company,
+  getOrderedFaq: (state) => (state.faq ? state.faq.sort((a, b) => a.order - b.order) : null),
 };

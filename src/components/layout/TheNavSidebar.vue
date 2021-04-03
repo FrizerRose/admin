@@ -28,6 +28,12 @@
           <span>Customers</span>
         </router-link>
       </a-menu-item>
+      <a-menu-item key="FAQ">
+        <router-link to="/faq">
+          <user-outlined />
+          <span>FAQ</span>
+        </router-link>
+      </a-menu-item>
       <a-menu-item
         key="Log Off"
         @click="logOff"

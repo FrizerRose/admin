@@ -2,8 +2,9 @@ import { DeveloperError } from '@/types/customError';
 import ArticleMutationTypes from './modules/article/mutation-types';
 import SharedMutationTypes from './modules/shared/mutation-types';
 import CompanyMutationTypes from './modules/company/mutation-types';
+import FaqMutationTypes from './modules/faq/mutation-types';
 
-const allMutationEnums = [SharedMutationTypes, ArticleMutationTypes, CompanyMutationTypes];
+const allMutationEnums = [SharedMutationTypes, ArticleMutationTypes, CompanyMutationTypes, FaqMutationTypes];
 
 const actionTypeValues = allMutationEnums.map((abc) => Object.values(abc)).flat();
 const hasConsistentNames = allMutationEnums
@@ -25,6 +26,7 @@ const allMutationTypes = {
   ...SharedMutationTypes,
   ...ArticleMutationTypes,
   ...CompanyMutationTypes,
+  ...FaqMutationTypes,
 };
 
 export default allMutationTypes;

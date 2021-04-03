@@ -1,7 +1,7 @@
 import Company from '@/types/company';
 
 export interface State {
-  company: Company | null;
+  company: Company[] | null;
   companyBeingEdited: Company | null;
 }
 

@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production' && process.env.VUE_APP_SENTRY_DSN !== 
 }
 
 // Initialize Firebase
-if (process.env.VUE_APP_FIREBASE_APIKEY !== undefined) {
+if (process.env.NODE_ENV === 'production' && process.env.VUE_APP_FIREBASE_APIKEY !== undefined) {
   const firebaseConfig = {
     apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
     authDomain: 'admin-dash-8a02c.firebaseapp.com',

@@ -30,7 +30,7 @@ export default defineComponent({
     const numberOfCustomers = computed(() => {
       const stateCompanies = store.state.company.company;
       if (stateCompanies !== null) {
-        return Object.keys(stateCompanies as Company).length;
+        return Object.keys(stateCompanies as Company[]).length;
       }
       return 0;
     });

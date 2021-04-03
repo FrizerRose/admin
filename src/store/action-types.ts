@@ -2,8 +2,9 @@ import { DeveloperError } from '@/types/customError';
 import ArticleActionTypes from './modules/article/action-types';
 import SharedActionTypes from './modules/shared/action-types';
 import CompanyActionTypes from './modules/company/action-types';
+import FaqActionTypes from './modules/faq/action-types';
 
-const allActionEnums = [SharedActionTypes, ArticleActionTypes, CompanyActionTypes];
+const allActionEnums = [SharedActionTypes, ArticleActionTypes, CompanyActionTypes, FaqActionTypes];
 
 const actionTypeValues = allActionEnums.map((abc) => Object.values(abc)).flat();
 const hasConsistentNames = allActionEnums
@@ -25,6 +26,7 @@ const allActionTypes = {
   ...SharedActionTypes,
   ...ArticleActionTypes,
   ...CompanyActionTypes,
+  ...FaqActionTypes,
 };
 
 export default allActionTypes;

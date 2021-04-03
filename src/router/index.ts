@@ -22,6 +22,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/faq',
+    name: 'Faq',
+    // lazy loaded route
+    component: () => import(/* webpackChunkName: "about" */ '@/views/Faq.vue'),
+    meta: {
+      authRequired: true,
+    },
+  },
+  {
     path: '/login',
     name: 'Login',
     // lazy loaded route
@@ -55,20 +64,22 @@ const router = createRouter({
   },
 });
 
-router.beforeEach(async (to, from, next) => {
-  const getCurrentUser = () => new Promise((resolve, reject) => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      unsubscribe();
-      resolve(user);
-    }, reject);
-  });
+if (process.env.NODE_ENV === 'production') {
+  router.beforeEach(async (to, from, next) => {
+    const getCurrentUser = () => new Promise((resolve, reject) => {
+      const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        unsubscribe();
+        resolve(user);
+      }, reject);
+    });
 
-  const requiresAuth = to.matched.some((record) => record.meta.authRequired);
-  if (requiresAuth && !(await getCurrentUser())) {
-    next('/login');
-  } else {
-    next();
-  }
-});
+    const requiresAuth = to.matched.some((record) => record.meta.authRequired);
+    if (requiresAuth && !(await getCurrentUser())) {
+      next('/login');
+    } else {
+      next();
+    }
+  });
+}
 
 export default router;

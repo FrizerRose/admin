@@ -5,16 +5,20 @@ import { ArticleStore, State as ArticleState, store as article } from '@/store/m
 import { SharedStore, State as SharedState, store as shared } from '@/store/modules/shared';
 // eslint-disable-next-line import/no-cycle
 import { CompanyStore, State as CompanyState, store as company } from '@/store/modules/company';
+// eslint-disable-next-line import/no-cycle
+import { FaqStore, State as FaqState, store as faq } from '@/store/modules/faq';
 import { createLogger, createStore } from 'vuex';
 
 export type RootState = {
   shared: SharedState;
   article: ArticleState;
   company: CompanyState;
+  faq: FaqState;
 };
 
 export type Store = SharedStore<Pick<RootState, 'shared'>> &
   ArticleStore<Pick<RootState, 'article'>> &
+  FaqStore<Pick<RootState, 'faq'>> &
   CompanyStore<Pick<RootState, 'company'>>;
 
 // Plug in logger when in development environment
@@ -27,6 +31,7 @@ export const store = createStore({
     shared,
     article,
     company,
+    faq,
   },
 });
 
