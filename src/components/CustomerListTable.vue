@@ -26,12 +26,12 @@ export default defineComponent({
     const store = useStore();
     const companies = computed(() => store.state.company.company);
 
-    function dateRender(record: Company) {
-      if (record.payments[0] !== undefined) {
-        return record.payments[0].date;
-      }
-      return '-';
-    }
+    // function dateRender(record: Company) {
+    //   if (record.payments[0] !== undefined) {
+    //     return record.payments[0].date;
+    //   }
+    //   return '-';
+    // }
 
     function showModal(record: Company) {
       store.commit(MutationTypes.CHANGE_COMPANY_TO_EDIT, record);
@@ -46,38 +46,38 @@ export default defineComponent({
         key: 'contactEmail',
       },
       { title: 'Booking URL', dataIndex: 'bookingPageSlug', key: 'bookingPageSlug' },
-      {
-        title: 'Last paid',
-        key: 'payments',
-        dataIndex: 'payments',
-        customRender: (record: { record: Company }) => dateRender(record.record),
-        filters: [{ text: 'Unpaid', value: '' }],
-        onFilter: (value: string, record: Company) => {
-          if (record.payments[0] !== undefined) {
-            const date: Date = new Date(record.payments[0].date);
-            const currentDay: Date = new Date();
-            date.setDate(date.getDate() + 30);
-            return currentDay > date;
-          }
-          return record.payments.length === 0;
-        },
-        sortDirections: ['descend'],
-        sorter: (a: Company, b: Company) => {
-          let dateA: string;
-          let dateB: string;
-          if (a.payments[0] === undefined) {
-            dateA = '1970-01-01';
-          } else {
-            dateA = a.payments[0].date;
-          }
-          if (b.payments[0] === undefined) {
-            dateB = '1970-01-01';
-          } else {
-            dateB = b.payments[0].date;
-          }
-          return new Date(dateA).getTime() - new Date(dateB).getTime();
-        },
-      },
+      // {
+      //   title: 'Last paid',
+      //   key: 'payments',
+      //   dataIndex: 'payments',
+      //   // customRender: (record: { record: Company }) => dateRender(record.record),
+      //   filters: [{ text: 'Unpaid', value: '' }],
+      //   onFilter: (value: string, record: Company) => {
+      //     if (record.payments[0] !== undefined) {
+      //       const date: Date = new Date(record.payments[0].date);
+      //       const currentDay: Date = new Date();
+      //       date.setDate(date.getDate() + 30);
+      //       return currentDay > date;
+      //     }
+      //     return record.payments.length === 0;
+      //   },
+      //   sortDirections: ['descend'],
+      //   sorter: (a: Company, b: Company) => {
+      //     let dateA: string;
+      //     let dateB: string;
+      //     if (a.payments[0] === undefined) {
+      //       dateA = '1970-01-01';
+      //     } else {
+      //       dateA = a.payments[0].date;
+      //     }
+      //     if (b.payments[0] === undefined) {
+      //       dateB = '1970-01-01';
+      //     } else {
+      //       dateB = b.payments[0].date;
+      //     }
+      //     return new Date(dateA).getTime() - new Date(dateB).getTime();
+      //   },
+      // },
       {
         title: 'Status',
         key: 'id',

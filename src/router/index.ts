@@ -31,6 +31,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/payment',
+    name: 'Payments',
+    // lazy loaded route
+    component: () => import(/* webpackChunkName: "about" */ '@/views/Payments.vue'),
+    meta: {
+      authRequired: true,
+    },
+  },
+  {
     path: '/login',
     name: 'Login',
     // lazy loaded route

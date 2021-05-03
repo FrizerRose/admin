@@ -1,7 +1,8 @@
 type Payment = {
   id: number;
   date: string;
-  amount: number;
+  status: string;
+  company: number;
 };
 
 export default Payment;

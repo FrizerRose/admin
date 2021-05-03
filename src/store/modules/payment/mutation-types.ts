@@ -1,0 +1,6 @@
+enum MutationTypes {
+  CHANGE_PAYMENT = 'CHANGE_PAYMENT',
+  CHANGE_PAYMENT_BEING_EDITED = 'CHANGE_PAYMENT_BEING_EDITED',
+}
+
+export default MutationTypes;

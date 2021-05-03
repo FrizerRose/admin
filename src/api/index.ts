@@ -143,6 +143,42 @@ export class CompanyService {
     return this.apiService.delete(this.resource, slug);
   }
 }
+export class PaymentService {
+  apiService: ApiService;
+
+  resource: string;
+
+  constructor() {
+    this.apiService = new ApiService();
+    this.resource = 'payment';
+  }
+
+  query(params: object) {
+    return this.apiService.query(this.resource, {
+      params,
+    });
+  }
+
+  get(slug: number) {
+    return this.apiService.get(this.resource, slug);
+  }
+
+  getAll() {
+    return this.apiService.getAll(this.resource);
+  }
+
+  create(params: object) {
+    return this.apiService.post(this.resource, params);
+  }
+
+  update(params: object) {
+    return this.apiService.update(this.resource, params);
+  }
+
+  destroy(slug: string) {
+    return this.apiService.delete(this.resource, slug);
+  }
+}
 export class FaqService {
   apiService: ApiService;
 

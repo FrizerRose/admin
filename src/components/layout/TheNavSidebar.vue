@@ -34,6 +34,12 @@
           <span>FAQ</span>
         </router-link>
       </a-menu-item>
+      <a-menu-item key="Payment">
+        <router-link to="/payment">
+          <user-outlined />
+          <span>Payment</span>
+        </router-link>
+      </a-menu-item>
       <a-menu-item
         key="Log Off"
         @click="logOff"

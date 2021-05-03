@@ -13,6 +13,7 @@ export default defineComponent({
     const fetchCompany = async () => {
       store.dispatch(ActionTypes.FETCH_COMPANY, undefined);
       store.dispatch(ActionTypes.FETCH_FAQ, {});
+      store.dispatch(ActionTypes.FETCH_PAYMENT, {});
     };
     fetchCompany();
   },
